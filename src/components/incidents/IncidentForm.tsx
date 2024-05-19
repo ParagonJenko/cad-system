@@ -48,11 +48,11 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
 
   return (
     <Box sx={{ mt: 3 }}>
-      <Button variant="contained" onClick={() => setShowForm(!showForm)}>
+      <Button variant="contained" onClick={() => setShowForm(!showForm)} sx={{ mb: 2 }}>
         {showForm ? 'Hide Incident Form' : 'Show Incident Form'}
       </Button>
       {showForm && (
-        <Card sx={{ mt: 2 }}>
+        <Card sx={{ mb: 2 }}>
           <CardContent>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Add Incident
