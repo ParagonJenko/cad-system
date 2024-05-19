@@ -10,8 +10,8 @@ import {
   MenuItem,
   IconButton,
   Chip,
-  Avatar,
   Box,
+  Avatar,
   Menu,
   MenuItem as MenuOption
 } from '@mui/material';
@@ -44,6 +44,22 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
   const handleUrgencyChange = (event: SelectChangeEvent<Incident['urgencyGrade']>) => {
     const newUrgency = event.target.value as Incident['urgencyGrade'];
     updateUrgency(incident.id, newUrgency);
+  };
+
+  // Define chip color based on urgency grade
+  const getUrgencyChipColor = (urgencyGrade: Incident['urgencyGrade']) => {
+    switch (urgencyGrade) {
+      case 'I Grade':
+        return 'success';
+      case 'S Grade':
+        return 'warning';
+      case 'E Grade':
+        return 'error';
+      case 'R Grade':
+        return 'primary';
+      default:
+        return 'default';
+    }
   };
 
   return (
@@ -112,7 +128,11 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="h6">{incident.description}</Typography>
             <Box display="flex" alignItems="center">
-              <Chip label={incident.urgencyGrade} sx={{ mr: 1 }} />
+              <Chip
+                label={incident.urgencyGrade}
+                color={getUrgencyChipColor(incident.urgencyGrade)}
+                sx={{ mr: 1 }}
+              />
               <Chip label={incident.status} />
             </Box>
           </Box>
