@@ -10,13 +10,15 @@ import {
   MenuItem,
   IconButton,
   Box,
-  Chip,
   Avatar,
   Menu,
+  Chip,
   MenuItem as MenuOption,
+  TextField,
+  Button
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
-import { Incident } from '../../types';
+import { Incident, LogEntry } from '../../types';
 import { SelectChangeEvent } from '@mui/material';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -24,11 +26,13 @@ interface IncidentCardProps {
   incident: Incident;
   updateStatus: (id: number, status: Incident['status']) => void;
   updateUrgency: (id: number, urgency: Incident['urgencyGrade']) => void;
+  addLog: (id: number, log: LogEntry) => void;
 }
 
-const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, updateUrgency }) => {
+const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, updateUrgency, addLog }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(new Date(incident.dateTime)));
+  const [newLog, setNewLog] = useState('');
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -48,15 +52,26 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
     updateUrgency(incident.id, newUrgency);
   };
 
+  const handleAddLog = () => {
+    if (newLog.trim() !== '') {
+      const logEntry: LogEntry = {
+        timestamp: new Date().toISOString(),
+        message: newLog.trim()
+      };
+      addLog(incident.id, logEntry);
+      setNewLog('');
+    }
+  };
+
   // Define card color based on urgency grade
   const getCardColor = (urgencyGrade: Incident['urgencyGrade']) => {
     switch (urgencyGrade) {
       case 'I Grade':
-        return '#ffcdd2'; // Light red
+        return '#e0f7fa'; // Light cyan
       case 'S Grade':
         return '#fff9c4'; // Light yellow
       case 'E Grade':
-        return '#e0f7fa'; // Light cyan
+        return '#ffcdd2'; // Light red
       case 'R Grade':
         return '#bbdefb'; // Light blue
       default:
@@ -77,7 +92,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: 'primary.main' }}>
-            {incident.description.charAt(0).toUpperCase()}
+            {incident.logs[0]?.message.charAt(0).toUpperCase()}
           </Avatar>
         }
         action={
@@ -136,7 +151,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
         }
         title={
           <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Typography variant="h6">{incident.description}</Typography>
+            <Typography variant="h6">{incident.logs[0]?.message}</Typography>
             <Box display="flex" alignItems="center">
               <Chip label={incident.urgencyGrade} sx={{ mr: 1 }} />
               <Chip label={incident.status} />
@@ -153,8 +168,25 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
           <strong>Classes:</strong> <Chip label={`${incident.majorClass} - ${incident.minorClass}`} />
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          <strong>Description:</strong> {incident.description}
+          <strong>Logs:</strong>
         </Typography>
+        {incident.logs.map((log, index) => (
+          <Typography variant="body2" color="text.secondary" gutterBottom key={index}>
+            {new Date(log.timestamp).toLocaleString()}: {log.message}
+          </Typography>
+        ))}
+        <Box display="flex" alignItems="center" sx={{ mt: 2 }}>
+          <TextField
+            label="Add Log"
+            value={newLog}
+            onChange={(e) => setNewLog(e.target.value)}
+            fullWidth
+            sx={{ mr: 2 }}
+          />
+          <Button variant="contained" onClick={handleAddLog}>
+            Add
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

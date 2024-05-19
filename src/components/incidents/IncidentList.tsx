@@ -1,15 +1,16 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import IncidentCard from './IncidentCard';
-import { Incident } from '../../types';
+import { Incident, LogEntry } from '../../types';
 
 interface IncidentListProps {
   incidents: Incident[];
   updateStatus: (id: number, status: Incident['status']) => void;
   updateUrgency: (id: number, urgency: Incident['urgencyGrade']) => void;
+  addLog: (id: number, log: LogEntry) => void; 
 }
 
-const IncidentList: React.FC<IncidentListProps> = ({ incidents, updateStatus, updateUrgency }) => {
+const IncidentList: React.FC<IncidentListProps> = ({ incidents, updateStatus, updateUrgency, addLog }) => {
   return (
     <Grid container spacing={2}>
       {incidents.map((incident) => (
@@ -18,6 +19,7 @@ const IncidentList: React.FC<IncidentListProps> = ({ incidents, updateStatus, up
             incident={incident}
             updateStatus={updateStatus}
             updateUrgency={updateUrgency}
+            addLog={addLog}
           />
         </Grid>
       ))}

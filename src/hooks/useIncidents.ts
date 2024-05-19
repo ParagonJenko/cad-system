@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Incident, MajorClass, MinorClass } from '../types';
+import { Incident, MajorClass, MinorClass, LogEntry } from '../types';
 import { subMinutes, subHours, subDays } from 'date-fns';
 
 // Helper function to generate a random date within the past month
@@ -12,11 +12,13 @@ const getRandomDate = () => {
 	).toISOString();
 };
 
-// Create fake incidents
+// Create fake incidents with specific date-times and logs
 const fakeIncidents: Incident[] = [
 	{
 		id: 1,
-		description: 'Burglary in a dwelling',
+		logs: [
+			{ timestamp: new Date().toISOString(), message: 'Incident created' },
+		],
 		street: '123 Main St',
 		city: 'Anytown',
 		county: 'SomeCounty',
@@ -29,7 +31,12 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 2,
-		description: 'Criminal damage to motor vehicle',
+		logs: [
+			{
+				timestamp: subMinutes(new Date(), 16).toISOString(),
+				message: 'Incident created',
+			},
+		],
 		street: '456 Elm St',
 		city: 'Othertown',
 		county: 'OtherCounty',
@@ -42,7 +49,12 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 3,
-		description: 'Drug trafficking',
+		logs: [
+			{
+				timestamp: subHours(new Date(), 23).toISOString(),
+				message: 'Incident created',
+			},
+		],
 		street: '789 Maple St',
 		city: 'Elsewhere',
 		county: 'AnotherCounty',
@@ -55,7 +67,12 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 4,
-		description: 'Theft from motor vehicle',
+		logs: [
+			{
+				timestamp: subDays(new Date(), 2).toISOString(),
+				message: 'Incident created',
+			},
+		],
 		street: '101 Pine St',
 		city: 'Somewhere',
 		county: 'ThisCounty',
@@ -68,7 +85,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 5,
-		description: 'Racist and religious hate crime',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '202 Oak St',
 		city: 'ThatTown',
 		county: 'TheirCounty',
@@ -81,7 +98,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 6,
-		description: 'Assault with injury',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '303 Cedar St',
 		city: 'YourTown',
 		county: 'MyCounty',
@@ -94,7 +111,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 7,
-		description: 'Handling stolen goods',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '404 Birch St',
 		city: 'HisTown',
 		county: 'HerCounty',
@@ -107,7 +124,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 8,
-		description: 'Sexual assault',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '505 Spruce St',
 		city: 'OurTown',
 		county: 'TheirCounty',
@@ -120,7 +137,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 9,
-		description: 'Fraud - other',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '606 Walnut St',
 		city: 'TheirCity',
 		county: 'OtherCounty',
@@ -133,7 +150,7 @@ const fakeIncidents: Incident[] = [
 	},
 	{
 		id: 10,
-		description: 'Harassment',
+		logs: [{ timestamp: getRandomDate(), message: 'Incident created' }],
 		street: '707 Ash St',
 		city: 'AnotherTown',
 		county: 'SomeCounty',
@@ -166,7 +183,7 @@ const useIncidents = () => {
 				);
 			});
 			setIncidents(sortedIncidents);
-		}, 1000); // 1-second delay
+		}, 10); // 1-second delay
 	}, []);
 
 	const addIncident = (incident: Incident) => {
@@ -206,11 +223,27 @@ const useIncidents = () => {
 		});
 	};
 
+	const addLog = (id: number, log: LogEntry) => {
+		setIncidents((prevIncidents) => {
+			const updatedIncidents = prevIncidents.map((incident) =>
+				incident.id === id
+					? { ...incident, logs: [...incident.logs, log] }
+					: incident
+			);
+			return updatedIncidents.sort((a, b) => {
+				return (
+					urgencyGradeOrder[a.urgencyGrade] - urgencyGradeOrder[b.urgencyGrade]
+				);
+			});
+		});
+	};
+
 	return {
 		incidents,
 		addIncident,
 		updateStatus,
 		updateUrgency,
+		addLog,
 	};
 };
 

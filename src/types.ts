@@ -73,9 +73,14 @@ export enum MinorClass {
 	KIV = 'Keep in view',
 }
 
+export interface LogEntry {
+	timestamp: string; // ISO 8601 date string
+	message: string;
+}
+
 export interface Incident {
 	id: number;
-	description: string;
+	logs: LogEntry[];
 	street: string;
 	city: string;
 	county: string;
