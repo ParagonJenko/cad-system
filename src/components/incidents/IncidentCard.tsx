@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -27,7 +27,8 @@ interface IncidentCardProps {
 }
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, updateUrgency }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(new Date(incident.dateTime)));
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -62,6 +63,14 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
         return 'default';
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeAgo(formatDistanceToNow(new Date(incident.dateTime)));
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [incident.dateTime]);
 
   return (
     <Card sx={{ mb: 2 }}>
@@ -138,7 +147,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
             </Box>
           </Box>
         }
-        subheader={`Reported ${formatDistanceToNow(new Date(incident.dateTime))} ago`}
+        subheader={`Reported ${timeAgo} ago`}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary" gutterBottom>
