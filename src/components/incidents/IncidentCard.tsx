@@ -15,7 +15,11 @@ import {
   Chip,
   MenuItem as MenuOption,
   TextField,
-  Button
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import { Incident, LogEntry } from '../../types';
@@ -167,14 +171,23 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
         <Typography variant="body2" color="text.secondary" gutterBottom>
           <strong>Classes:</strong> <Chip label={`${incident.majorClass} - ${incident.minorClass}`} />
         </Typography>
+        {/* Logs */}
         <Typography variant="body2" color="text.secondary" gutterBottom>
           <strong>Logs:</strong>
         </Typography>
-        {incident.logs.map((log, index) => (
-          <Typography variant="body2" color="text.secondary" gutterBottom key={index}>
-            {new Date(log.timestamp).toLocaleString()}: {log.message}
-          </Typography>
-        ))}
+        <List>
+          {incident.logs.map((log, index) => (
+            <React.Fragment key={index}>
+              <ListItem>
+                <ListItemText
+                  primary={log.message}
+                  secondary={new Date(log.timestamp).toLocaleString()}
+                />
+              </ListItem>
+              {index < incident.logs.length - 1 && <Divider />}
+            </React.Fragment>
+          ))}
+        </List>
         <Box display="flex" alignItems="center" sx={{ mt: 2 }}>
           <TextField
             label="Add Log"
