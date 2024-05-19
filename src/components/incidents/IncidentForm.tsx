@@ -33,6 +33,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
       status: 'Pending',
       majorClass,
       minorClass,
+      dateTime: new Date().toISOString(),
     };
     addIncident(newIncident);
     setDescription('');
@@ -72,8 +73,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                     label="Street"
                     value={street}
                     onChange={(e) => setStreet(e.target.value)}
-                    fullWidth
-                    
+                    fullWidth       
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

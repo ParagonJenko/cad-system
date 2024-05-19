@@ -81,8 +81,22 @@ export interface Incident {
 	county: string;
 	postalCode: string;
 	urgencyGrade: 'I Grade' | 'S Grade' | 'E Grade' | 'R Grade'; // I = 15 minutes, S = 60 minutes, E = 48 hours, R = Referred
-	status: 'Pending' | 'In Progress' | 'Resolved';
+	status:
+		| 'Pending'
+		| 'In Progress'
+		| 'Resolved'
+		| 'Closed'
+		| 'Cancelled'
+		| 'Referred'
+		| 'Escalated'
+		| 'Awaiting Resources'
+		| 'Follow-Up Required'
+		| 'On Hold'
+		| 'Transporting'
+		| 'Arrived on Scene'
+		| 'Under Review';
 	assignedTo?: string;
 	majorClass: MajorClass;
 	minorClass: MinorClass;
+	dateTime: string; // ISO 8601 date string
 }
