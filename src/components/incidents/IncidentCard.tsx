@@ -18,6 +18,7 @@ import {
 import { MoreVert } from '@mui/icons-material';
 import { Incident } from '../../types';
 import { SelectChangeEvent } from '@mui/material';
+import { formatDistanceToNow } from 'date-fns';
 
 interface IncidentCardProps {
   incident: Incident;
@@ -137,7 +138,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
             </Box>
           </Box>
         }
-        subheader={new Date(incident.dateTime).toLocaleString()}
+        subheader={`Reported ${formatDistanceToNow(new Date(incident.dateTime))} ago`}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary" gutterBottom>
