@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Incident, MajorClass, MinorClass } from '../types';
+import { subMinutes, subHours, subDays } from 'date-fns';
 
 // Helper function to generate a random date within the past month
 const getRandomDate = () => {
@@ -24,7 +25,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.Burglary,
 		minorClass: MinorClass.BurglaryInDwelling,
-		dateTime: getRandomDate(),
+		dateTime: new Date().toISOString(), // now
 	},
 	{
 		id: 2,
@@ -37,7 +38,7 @@ const fakeIncidents: Incident[] = [
 		status: 'In Progress',
 		majorClass: MajorClass.CriminalDamage,
 		minorClass: MinorClass.CriminalDamageToMotorVehicle,
-		dateTime: getRandomDate(),
+		dateTime: subMinutes(new Date(), 16).toISOString(), // 16 minutes ago
 	},
 	{
 		id: 3,
@@ -50,7 +51,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Resolved',
 		majorClass: MajorClass.Drugs,
 		minorClass: MinorClass.DrugTrafficking,
-		dateTime: getRandomDate(),
+		dateTime: subHours(new Date(), 23).toISOString(), // 23 hours ago
 	},
 	{
 		id: 4,
@@ -63,7 +64,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.TheftHandling,
 		minorClass: MinorClass.TheftFromMotorVehicle,
-		dateTime: getRandomDate(),
+		dateTime: subDays(new Date(), 2).toISOString(), // 2 days ago
 	},
 	{
 		id: 5,
