@@ -9,11 +9,11 @@ import {
   Select,
   MenuItem,
   IconButton,
-  Chip,
   Box,
+  Chip,
   Avatar,
   Menu,
-  MenuItem as MenuOption
+  MenuItem as MenuOption,
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import { Incident } from '../../types';
@@ -48,19 +48,19 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
     updateUrgency(incident.id, newUrgency);
   };
 
-  // Define chip color based on urgency grade
-  const getUrgencyChipColor = (urgencyGrade: Incident['urgencyGrade']) => {
+  // Define card color based on urgency grade
+  const getCardColor = (urgencyGrade: Incident['urgencyGrade']) => {
     switch (urgencyGrade) {
       case 'I Grade':
-        return 'success';
+        return '#ffcdd2'; // Light red
       case 'S Grade':
-        return 'warning';
+        return '#fff9c4'; // Light yellow
       case 'E Grade':
-        return 'error';
+        return '#e0f7fa'; // Light cyan
       case 'R Grade':
-        return 'primary';
+        return '#bbdefb'; // Light blue
       default:
-        return 'default';
+        return 'white';
     }
   };
 
@@ -73,7 +73,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
   }, [incident.dateTime]);
 
   return (
-    <Card sx={{ mb: 2 }}>
+    <Card sx={{ mb: 2, backgroundColor: getCardColor(incident.urgencyGrade) }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: 'primary.main' }}>
@@ -138,11 +138,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Typography variant="h6">{incident.description}</Typography>
             <Box display="flex" alignItems="center">
-              <Chip
-                label={incident.urgencyGrade}
-                color={getUrgencyChipColor(incident.urgencyGrade)}
-                sx={{ mr: 1 }}
-              />
+              <Chip label={incident.urgencyGrade} sx={{ mr: 1 }} />
               <Chip label={incident.status} />
             </Box>
           </Box>
