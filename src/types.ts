@@ -78,7 +78,7 @@ export interface Incident {
 	description: string;
 	street: string;
 	city: string;
-	state: string;
+	county: string;
 	postalCode: string;
 	urgencyGrade: 'I Grade' | 'S Grade' | 'E Grade' | 'R Grade'; // I = 15 minutes, S = 60 minutes, E = 48 hours, R = Referred
 	status: 'Pending' | 'In Progress' | 'Resolved';

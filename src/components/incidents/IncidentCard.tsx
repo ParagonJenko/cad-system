@@ -23,7 +23,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus }) =
           {incident.street}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {incident.city}, {incident.state} {incident.postalCode}
+          {incident.city}, {incident.county} {incident.postalCode}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <strong>Urgency Grade:</strong> {incident.urgencyGrade}
