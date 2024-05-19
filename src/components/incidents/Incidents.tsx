@@ -5,7 +5,7 @@ import IncidentList from './IncidentList';
 import useIncidents from '../../hooks/useIncidents';
 
 const Incidents: React.FC = () => {
-  const { incidents, addIncident, updateStatus } = useIncidents();
+  const { incidents, addIncident, updateStatus, updateUrgency } = useIncidents();
 
   return (
     <Container>
@@ -13,7 +13,7 @@ const Incidents: React.FC = () => {
         Incidents
       </Typography>
       <IncidentForm addIncident={addIncident} />
-      <IncidentList incidents={incidents} updateStatus={updateStatus} />
+      <IncidentList incidents={incidents} updateStatus={updateStatus} updateUrgency={updateUrgency} />
     </Container>
   );
 };
