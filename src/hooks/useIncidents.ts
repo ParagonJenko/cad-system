@@ -192,10 +192,24 @@ const useIncidents = () => {
 		});
 	};
 
+	const updateUrgency = (id: number, urgency: Incident['urgencyGrade']) => {
+		setIncidents((prevIncidents) => {
+			const updatedIncidents = prevIncidents.map((incident) =>
+				incident.id === id ? { ...incident, urgencyGrade: urgency } : incident
+			);
+			return updatedIncidents.sort((a, b) => {
+				return (
+					urgencyGradeOrder[a.urgencyGrade] - urgencyGradeOrder[b.urgencyGrade]
+				);
+			});
+		});
+	};
+
 	return {
 		incidents,
 		addIncident,
 		updateStatus,
+		updateUrgency,
 	};
 };
 
