@@ -103,5 +103,5 @@ export interface Incident {
 	assignedTo?: string;
 	majorClass: MajorClass;
 	minorClass: MinorClass;
-	dateTime: string; // ISO 8601 date string
+	timestamp: string; // ISO 8601 date string
 }

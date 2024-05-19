@@ -31,7 +31,7 @@ interface IncidentCardProps {
 
 const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, updateUrgency, addLog }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(new Date(incident.dateTime)));
+  const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(new Date(incident.timestamp)));
   const [newLog, setNewLog] = useState('');
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -81,11 +81,11 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeAgo(formatDistanceToNow(new Date(incident.dateTime)));
+      setTimeAgo(formatDistanceToNow(new Date(incident.timestamp)));
     }, 60000); // Update every minute
 
     return () => clearInterval(interval);
-  }, [incident.dateTime]);
+  }, [incident.timestamp]);
 
   return (
     <Card sx={{ mb: 2, backgroundColor: getCardColor(incident.urgencyGrade) }}>

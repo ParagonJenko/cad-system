@@ -27,7 +27,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.Burglary,
 		minorClass: MinorClass.BurglaryInDwelling,
-		dateTime: new Date().toISOString(), // now
+		timestamp: new Date().toISOString(), // now
 	},
 	{
 		id: 2,
@@ -45,7 +45,7 @@ const fakeIncidents: Incident[] = [
 		status: 'In Progress',
 		majorClass: MajorClass.CriminalDamage,
 		minorClass: MinorClass.CriminalDamageToMotorVehicle,
-		dateTime: subMinutes(new Date(), 16).toISOString(), // 16 minutes ago
+		timestamp: subMinutes(new Date(), 16).toISOString(), // 16 minutes ago
 	},
 	{
 		id: 3,
@@ -63,7 +63,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Resolved',
 		majorClass: MajorClass.Drugs,
 		minorClass: MinorClass.DrugTrafficking,
-		dateTime: subHours(new Date(), 23).toISOString(), // 23 hours ago
+		timestamp: subHours(new Date(), 23).toISOString(), // 23 hours ago
 	},
 	{
 		id: 4,
@@ -81,7 +81,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.TheftHandling,
 		minorClass: MinorClass.TheftFromMotorVehicle,
-		dateTime: subDays(new Date(), 2).toISOString(), // 2 days ago
+		timestamp: subDays(new Date(), 2).toISOString(), // 2 days ago
 	},
 	{
 		id: 5,
@@ -94,7 +94,7 @@ const fakeIncidents: Incident[] = [
 		status: 'In Progress',
 		majorClass: MajorClass.AdditionalCrimeTypes,
 		minorClass: MinorClass.RacistReligiousHateCrime,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 	{
 		id: 6,
@@ -107,7 +107,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Resolved',
 		majorClass: MajorClass.ViolenceAgainstThePerson,
 		minorClass: MinorClass.AssaultWithInjury,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 	{
 		id: 7,
@@ -120,7 +120,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.TheftHandling,
 		minorClass: MinorClass.HandlingStolenGoods,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 	{
 		id: 8,
@@ -133,7 +133,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Pending',
 		majorClass: MajorClass.SexualOffences,
 		minorClass: MinorClass.OtherSexual,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 	{
 		id: 9,
@@ -146,7 +146,7 @@ const fakeIncidents: Incident[] = [
 		status: 'In Progress',
 		majorClass: MajorClass.FraudForgery,
 		minorClass: MinorClass.OtherFraudForgery,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 	{
 		id: 10,
@@ -159,7 +159,7 @@ const fakeIncidents: Incident[] = [
 		status: 'Resolved',
 		majorClass: MajorClass.ViolenceAgainstThePerson,
 		minorClass: MinorClass.Harassment,
-		dateTime: getRandomDate(),
+		timestamp: getRandomDate(),
 	},
 ];
 

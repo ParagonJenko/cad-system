@@ -33,7 +33,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
       status: 'Pending',
       majorClass,
       minorClass,
-      dateTime: new Date().toISOString(),
+      timestamp: new Date().toISOString(),
     };
     addIncident(newIncident);
     setDescription('');
