@@ -12,12 +12,11 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
   const [city, setCity] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [postalCode, setPostalCode] = useState<string>('');
-  const [urgencyGrade, setUrgencyGrade] = useState<Incident['urgencyGrade']>('E Grade');
+  const [urgencyGrade, setUrgencyGrade] = useState<Incident['urgencyGrade']>('I Grade');
   const [majorClass, setMajorClass] = useState<MajorClass>(MajorClass.NA);
   const [minorClass, setMinorClass] = useState<MinorClass>(MinorClass.NA);
 
-
-    const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newIncident: Incident = {
       id: Date.now(),
@@ -38,8 +37,8 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
     setState('');
     setPostalCode('');
     setUrgencyGrade('I Grade');
-    setMajorClass(MajorClass.Burglary);
-    setMinorClass(MinorClass.BurglaryInDwelling);
+    setMajorClass(MajorClass.NA);
+    setMinorClass(MinorClass.NA);
   };
 
   return (
@@ -52,7 +51,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
         required
         sx={{ mb: 2 }}
       />
-       <TextField
+      <TextField
         label="Street"
         value={street}
         onChange={(e) => setStreet(e.target.value)}

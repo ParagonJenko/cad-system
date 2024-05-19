@@ -17,22 +17,39 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus }) =
       <CardContent>
         <Typography variant="h5">{incident.description}</Typography>
         <Typography variant="body2" color="text.secondary">
-          Address: {incident.street}, {incident.city}, {incident.state}, {incident.postalCode}
+          <strong>Address:</strong>
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Severity: {incident.urgencyGrade}
+          {incident.street}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Major Class: {incident.majorClass}
+          {incident.city}, {incident.state} {incident.postalCode}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Minor Class: {incident.minorClass}
+          <strong>Urgency Grade:</strong> {incident.urgencyGrade}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Status: {incident.status}
+          <strong>Major Class:</strong> {incident.majorClass}
         </Typography>
-        <Button onClick={() => handleStatusChange('In Progress')} disabled={incident.status !== 'Pending'}>Start</Button>
-        <Button onClick={() => handleStatusChange('Resolved')} disabled={incident.status !== 'In Progress'}>Resolve</Button>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Minor Class:</strong> {incident.minorClass}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          <strong>Status:</strong> {incident.status}
+        </Typography>
+        <Button
+          onClick={() => handleStatusChange('In Progress')}
+          disabled={incident.status !== 'Pending'}
+          sx={{ mr: 1 }}
+        >
+          Start
+        </Button>
+        <Button
+          onClick={() => handleStatusChange('Resolved')}
+          disabled={incident.status !== 'In Progress'}
+        >
+          Resolve
+        </Button>
       </CardContent>
     </Card>
   );
