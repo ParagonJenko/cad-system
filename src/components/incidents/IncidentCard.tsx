@@ -21,7 +21,7 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
+import { MoreVert, Receipt } from '@mui/icons-material';
 import { Incident, LogEntry } from '../../types';
 import { SelectChangeEvent } from '@mui/material';
 import { formatDistanceToNow } from 'date-fns';
@@ -37,6 +37,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(new Date(incident.timestamp)));
   const [newLog, setNewLog] = useState('');
+  const [showAllLogs, setShowAllLogs] = useState(false);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -67,15 +68,19 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
     }
   };
 
+  const toggleShowAllLogs = () => {
+    setShowAllLogs(!showAllLogs);
+  };
+
   // Define card color based on urgency grade
   const getCardColor = (urgencyGrade: Incident['urgencyGrade']) => {
     switch (urgencyGrade) {
       case 'I Grade':
-        return '#e0f7fa'; // Light cyan
+        return '#ffcdd2'; // Light red
       case 'S Grade':
         return '#fff9c4'; // Light yellow
       case 'E Grade':
-        return '#ffcdd2'; // Light red
+        return '#e0f7fa'; // Light cyan
       case 'R Grade':
         return '#bbdefb'; // Light blue
       default:
@@ -91,12 +96,15 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
     return () => clearInterval(interval);
   }, [incident.timestamp]);
 
+  // Reverse logs to show latest first
+  const logsToShow = showAllLogs ? incident.logs : incident.logs.slice(0, 3);
+
   return (
     <Card sx={{ mb: 2, backgroundColor: getCardColor(incident.urgencyGrade) }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: 'primary.main' }}>
-            {incident.logs[0]?.message.charAt(0).toUpperCase()}
+          <Avatar sx={{ color: getCardColor(incident.urgencyGrade) }}>
+            <Receipt /> 
           </Avatar>
         }
         action={
@@ -155,7 +163,7 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
         }
         title={
           <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Typography variant="h6">{incident.logs[0]?.message}</Typography>
+            <Typography variant="h6">{incident.urgencyGrade} - Incident Report</Typography>
             <Box display="flex" alignItems="center">
               <Chip label={incident.urgencyGrade} sx={{ mr: 1 }} />
               <Chip label={incident.status} />
@@ -176,11 +184,11 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
           <strong>Logs:</strong>
         </Typography>
         <List>
-          {incident.logs.map((log, index) => (
+          {logsToShow.reverse().map((log, index) => (
             <React.Fragment key={index}>
-              <ListItem>
+              <ListItem alignItems="flex-start">
                 <ListItemText
-                  primary={log.message}
+                  primary={<Typography style={{ whiteSpace: 'pre-line' }}>{log.message}</Typography>}
                   secondary={new Date(log.timestamp).toLocaleString()}
                 />
               </ListItem>
@@ -188,12 +196,18 @@ const IncidentCard: React.FC<IncidentCardProps> = ({ incident, updateStatus, upd
             </React.Fragment>
           ))}
         </List>
+        {incident.logs.length > 3 && (
+          <Button onClick={toggleShowAllLogs}>
+            {showAllLogs ? 'Show less' : 'Show more'}
+          </Button>
+        )}
         <Box display="flex" alignItems="center" sx={{ mt: 2 }}>
           <TextField
             label="Add Log"
             value={newLog}
             onChange={(e) => setNewLog(e.target.value)}
             fullWidth
+            multiline
             sx={{ mr: 2 }}
           />
           <Button variant="contained" onClick={handleAddLog}>

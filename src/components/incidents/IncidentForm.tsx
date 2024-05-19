@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import {
-  TextField, Button, Box, MenuItem, Select, InputLabel, FormControl,
-  Card, CardContent, Grid, Typography
+  TextField,
+  Button,
+  Box,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Card,
+  CardContent,
+  Grid,
+  Typography
 } from '@mui/material';
-import { Incident, MajorClass, MinorClass } from '../../types';
+import { Incident, MajorClass, MinorClass, LogEntry } from '../../types';
 
 interface IncidentFormProps {
   addIncident: (incident: Incident) => void;
 }
 
 const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
-  const [description, setDescription] = useState<string>('');
+  const [logEntry, setLogEntry] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [city, setCity] = useState<string>('');
   const [county, setCounty] = useState<string>('');
@@ -22,9 +31,13 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newLog: LogEntry = {
+      timestamp: new Date().toISOString(),
+      message: logEntry
+    };
     const newIncident: Incident = {
       id: Date.now(),
-      description,
+      logs: [newLog],
       street,
       city,
       county,
@@ -36,7 +49,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
       timestamp: new Date().toISOString(),
     };
     addIncident(newIncident);
-    setDescription('');
+    setLogEntry('');
     setStreet('');
     setCity('');
     setCounty('');
@@ -60,10 +73,11 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
             </Typography>
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
-                label="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                label="Log entry"
+                value={logEntry}
+                onChange={(e) => setLogEntry(e.target.value)}
                 fullWidth
+                multiline
                 required
                 sx={{ mb: 2 }}
               />
@@ -73,7 +87,8 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                     label="Street"
                     value={street}
                     onChange={(e) => setStreet(e.target.value)}
-                    fullWidth       
+                    fullWidth
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -82,7 +97,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     fullWidth
-                    
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -91,7 +106,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                     value={county}
                     onChange={(e) => setCounty(e.target.value)}
                     fullWidth
-                    
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -100,7 +115,7 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
                     fullWidth
-                    
+                    required
                   />
                 </Grid>
               </Grid>
@@ -125,7 +140,11 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                   value={majorClass}
                   onChange={(e) => {
                     setMajorClass(e.target.value as MajorClass);
-                    setMinorClass(Object.values(MinorClass).find(minor => minor.startsWith(e.target.value.split(' ')[0])) || MinorClass.BurglaryInDwelling);
+                    setMinorClass(
+                      Object.values(MinorClass).find(minor =>
+                        minor.startsWith(e.target.value.split(' ')[0])
+                      ) || MinorClass.BurglaryInDwelling
+                    );
                   }}
                   label="Major Class"
                 >
@@ -142,7 +161,9 @@ const IncidentForm: React.FC<IncidentFormProps> = ({ addIncident }) => {
                   onChange={(e) => setMinorClass(e.target.value as MinorClass)}
                   label="Minor Class"
                 >
-                  {Object.values(MinorClass).filter(minor => minor.startsWith(majorClass.split(' ')[0])).map((minor) => (
+                  {Object.values(MinorClass).filter(minor =>
+                    minor.startsWith(majorClass.split(' ')[0])
+                  ).map((minor) => (
                     <MenuItem key={minor} value={minor}>{minor}</MenuItem>
                   ))}
                 </Select>
