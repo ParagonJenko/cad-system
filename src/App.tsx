@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import NavBar from './components/Navbar';
 import Login from './components/auth/Login';
 import Incidents from './components/incidents/Incidents';
-import Resources from './components/resources/Resources';
 import Dashboard from './components/dashboard/Dashboard';
 import useAuth from './hooks/useAuth';
 import { Container } from '@mui/material';
@@ -21,10 +20,6 @@ const App: React.FC = () => {
             <Route
               path="/incidents"
               element={loggedIn ? <Incidents /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/resources"
-              element={loggedIn ? <Resources /> : <Navigate to="/login" />}
             />
             <Route
               path="/dashboard"
