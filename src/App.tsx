@@ -6,6 +6,7 @@ import Incidents from './components/incidents/Incidents';
 import Dashboard from './components/dashboard/Dashboard';
 import useAuth from './hooks/useAuth';
 import { Container } from '@mui/material';
+import Resources from './components/resources/Resources';
 
 const App: React.FC = () => {
   const { loggedIn, logout } = useAuth();
@@ -25,6 +26,10 @@ const App: React.FC = () => {
               path="/dashboard"
               element={loggedIn ? <Dashboard /> : <Navigate to="/login" />}
             />
+            <Route 
+              path='/resources'
+              element={loggedIn ? <Resources /> : <Navigate to="/login" />}
+              />
             <Route
               path="/"
               element={<Navigate to={loggedIn ? "/dashboard" : "/login"} />}
