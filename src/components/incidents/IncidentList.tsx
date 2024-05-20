@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import IncidentCard from './IncidentCard';
-import { Incident, LogEntry } from '../../types';
+import { Incident, LogEntry } from './types';
 
 interface IncidentListProps {
   incidents: Incident[];

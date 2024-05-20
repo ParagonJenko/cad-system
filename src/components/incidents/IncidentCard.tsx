@@ -22,7 +22,7 @@ import {
   Divider,
 } from '@mui/material';
 import { MoreVert, Receipt } from '@mui/icons-material';
-import { Incident, LogEntry } from '../../types';
+import { Incident, LogEntry } from './types';
 import { SelectChangeEvent } from '@mui/material';
 import { formatDistanceToNow } from 'date-fns';
 

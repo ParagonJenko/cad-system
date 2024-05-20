@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Incident, MajorClass, MinorClass, LogEntry } from '../types';
+import {
+	Incident,
+	MajorClass,
+	MinorClass,
+	LogEntry,
+} from '../components/incidents/types';
 import { subMinutes, subHours, subDays } from 'date-fns';
 
 // Helper function to generate a random date within the past month

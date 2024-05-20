@@ -12,7 +12,7 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import { Incident, MajorClass, MinorClass, LogEntry } from '../../types';
+import { Incident, MajorClass, MinorClass, LogEntry } from './types';
 
 interface IncidentFormProps {
   addIncident: (incident: Incident) => void;
